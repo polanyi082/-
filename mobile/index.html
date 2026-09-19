@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#0a0f1f" />
+
+<title>한성대학교 AI 바이브코딩 기초·심화 프로그램</title>
+<meta name="description" content="한성대학교 AI 바이브코딩 기초·심화 프로그램 안내 e-book" />
+<meta name="keywords" content="한성대학교, AI, 바이브코딩, 이북, ebook, 교육프로그램" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="한성대학교 AI 바이브코딩 기초·심화 프로그램" />
+<meta property="og:description" content="한성대학교 AI 바이브코딩 기초·심화 프로그램 안내 e-book" />
+<meta property="og:image" content="../files/thumb/1.jpg" />
+<link rel="image_src" href="../files/thumb/1.jpg" />
+<link rel="apple-touch-icon" href="../files/thumb/1.jpg" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1f'/%3E%3Cpath d='M7 8h8v16H7zM17 8h8v16h-8z' fill='%2322e584'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+</head>
+<body>
+
+<div id="app" class="app" aria-busy="true">
+
+  <!-- ===== top bar ===== -->
+  <header class="topbar" id="topbar">
+    <h1 class="book-title" id="bookTitle">한성대학교 AI 바이브코딩 기초·심화 프로그램</h1>
+    <div class="top-actions">
+      <button class="icon-btn" id="btnShare" type="button" title="공유" aria-label="공유">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15a3 3 0 0 0 .18 1.02L8.7 8.6a3 3 0 1 0 0 6.8l6.48 3.58A3 3 0 1 0 18 16a2.98 2.98 0 0 0-1.9.68L9.9 13.2a3.02 3.02 0 0 0 0-2.4l6.2-3.48A2.98 2.98 0 0 0 18 8z"/></svg>
+      </button>
+      <button class="icon-btn" id="btnFullscreen" type="button" title="전체화면" aria-label="전체화면">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 3v-3h2v5h-5v-2h3z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== the book ===== -->
+  <main class="stage" id="stage">
+    <div class="book-wrap" id="bookWrap">
+      <div class="book" id="book" role="region" aria-label="전자책 본문"></div>
+    </div>
+
+    <button class="edge-nav prev" id="btnEdgePrev" type="button" aria-label="이전 페이지">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4-4.6-4.6z"/></svg>
+    </button>
+    <button class="edge-nav next" id="btnEdgeNext" type="button" aria-label="다음 페이지">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 16.6 10 18l6-6-6-6-1.4 1.4 4.6 4.6z"/></svg>
+    </button>
+
+    <div class="hint" id="hint">좌우로 넘겨보세요</div>
+  </main>
+
+  <!-- ===== bottom toolbar ===== -->
+  <footer class="toolbar" id="toolbar">
+    <button class="icon-btn" id="btnFirst" type="button" title="첫 페이지" aria-label="첫 페이지">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2v12H6V6zm12 0v12l-8-6 8-6z"/></svg>
+    </button>
+    <button class="icon-btn" id="btnPrev" type="button" title="이전" aria-label="이전 페이지">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4-4.6-4.6z"/></svg>
+    </button>
+
+    <button class="page-indicator" id="pageIndicator" type="button" title="페이지 이동" aria-label="페이지 이동">
+      <span id="pageNow">-</span><span class="slash">/</span><span id="pageTotal">-</span>
+    </button>
+
+    <button class="icon-btn" id="btnNext" type="button" title="다음" aria-label="다음 페이지">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 16.6 10 18l6-6-6-6-1.4 1.4 4.6 4.6z"/></svg>
+    </button>
+    <button class="icon-btn" id="btnLast" type="button" title="마지막 페이지" aria-label="마지막 페이지">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 6h2v12h-2V6zM6 6l8 6-8 6V6z"/></svg>
+    </button>
+
+    <span class="tb-sep" aria-hidden="true"></span>
+
+    <button class="icon-btn" id="btnThumbs" type="button" title="페이지 목록" aria-label="페이지 목록">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+    </button>
+    <button class="icon-btn" id="btnZoom" type="button" title="확대" aria-label="확대">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2a8 8 0 1 1-4.9 14.3l-3 3-1.4-1.4 3-3A8 8 0 0 1 10 2zm0 2a6 6 0 1 0 0 12A6 6 0 0 0 10 4zm1 2v3h3v2h-3v3H9v-3H6V9h3V6h2z"/></svg>
+    </button>
+    <button class="icon-btn" id="btnAuto" type="button" title="자동 넘김" aria-label="자동 넘김">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7L8 5z"/></svg>
+    </button>
+    <a class="icon-btn" id="btnDownload" href="#" title="원본 내려받기" aria-label="원본 내려받기" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.6l3.3-3.3 1.4 1.4L12 17.4l-4.7-5.7 1.4-1.4L12 13.6V3h0zM5 19h14v2H5v-2z"/></svg>
+    </a>
+  </footer>
+
+  <!-- ===== thumbnails drawer ===== -->
+  <div class="drawer" id="thumbDrawer" hidden>
+    <div class="drawer-head">
+      <span>페이지 목록</span>
+      <button class="icon-btn" id="btnThumbsClose" type="button" aria-label="닫기">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 10.6 5-5L18.4 7l-5 5 5 5L17 18.4l-5-5-5 5L5.6 17l5-5-5-5L7 5.6l5 5z"/></svg>
+      </button>
+    </div>
+    <div class="thumb-grid" id="thumbGrid"></div>
+  </div>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <!-- ===== loading / empty ===== -->
+  <div class="splash" id="splash">
+    <div class="splash-inner">
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="splashText">불러오는 중…</p>
+    </div>
+  </div>
+
+</div>
+
+<noscript>
+  <p style="color:#fff;padding:24px;font-family:sans-serif">
+    이 전자책을 보려면 자바스크립트를 켜 주세요.
+  </p>
+</noscript>
+
+<script src="javascript/config.js"></script>
+<script src="javascript/flipbook.js"></script>
+</body>
+</html>

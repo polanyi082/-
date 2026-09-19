@@ -1,0 +1,6 @@
+# original material — only the generated assets under files/ need committing
+source/*
+!source/README.md
+files/.render-tmp/
+__pycache__/
+.DS_Store

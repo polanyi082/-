@@ -1,0 +1,286 @@
+/* ==========================================================================
+   AI 바이브코딩 e-book — mobile-first flipbook viewer
+   ========================================================================== */
+
+:root{
+  --bg:#0a0f1f;
+  --bg2:#0e1730;
+  --green:#22e584;
+  --blue:#4f7cff;
+  --white:#f5f7ff;
+  --muted:#9aa3c7;
+  --bar:rgba(10,15,31,.82);
+  --line:rgba(255,255,255,.10);
+  --page-bg:#ffffff;
+  --topbar-h:52px;
+  --toolbar-h:56px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+
+/* class rules below set display:flex/grid, which would otherwise beat the
+   [hidden] attribute's UA display:none — keep hidden actually hidden. */
+[hidden]{display:none !important;}
+
+html,body{
+  height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  -webkit-text-size-adjust:100%;
+  overscroll-behavior:none;
+}
+
+.app{
+  position:fixed; inset:0;
+  display:flex; flex-direction:column;
+  background:
+    radial-gradient(ellipse 900px 500px at 85% -5%, rgba(79,124,255,.20), transparent 60%),
+    radial-gradient(ellipse 700px 500px at -10% 15%, rgba(34,229,132,.12), transparent 55%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 55%, var(--bg) 100%);
+}
+
+/* ---------- buttons ---------- */
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:40px; height:40px; flex:0 0 auto;
+  border:0; border-radius:10px;
+  background:transparent; color:var(--white);
+  cursor:pointer; transition:background .15s ease, color .15s ease, opacity .15s ease;
+}
+.icon-btn svg{width:22px;height:22px;fill:currentColor;display:block;}
+.icon-btn:hover{background:rgba(255,255,255,.08);}
+.icon-btn:active{background:rgba(255,255,255,.14);}
+.icon-btn:disabled{opacity:.3;cursor:default;background:transparent;}
+.icon-btn.on{color:var(--green);background:rgba(34,229,132,.12);}
+.icon-btn:focus-visible,.page-indicator:focus-visible,.edge-nav:focus-visible{
+  outline:2px solid var(--green); outline-offset:2px;
+}
+
+/* ---------- top bar ---------- */
+.topbar{
+  flex:0 0 auto;
+  height:calc(var(--topbar-h) + var(--safe-top));
+  padding:var(--safe-top) 6px 0 14px;
+  display:flex; align-items:center; gap:8px;
+  background:var(--bar);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  transition:transform .25s ease, opacity .25s ease;
+  z-index:30;
+}
+.book-title{
+  flex:1 1 auto; min-width:0;
+  font-size:14px; font-weight:700; letter-spacing:-.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.top-actions{display:flex;align-items:center;gap:2px;flex:0 0 auto;}
+
+/* ---------- stage ---------- */
+.stage{
+  position:relative; flex:1 1 auto; min-height:0;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  touch-action:none;
+}
+.book-wrap{
+  position:relative;
+  transform-origin:center center;
+  will-change:transform;
+  transition:transform .22s ease;
+}
+.book-wrap.panning{transition:none;}
+
+.book{
+  position:relative;
+  display:flex;
+  border-radius:3px;
+  background:var(--page-bg);
+  box-shadow:0 18px 50px rgba(0,0,0,.55), 0 2px 10px rgba(0,0,0,.4);
+  overflow:hidden;
+}
+
+/* a single leaf (one page image) */
+.leaf{
+  position:relative;
+  flex:0 0 auto;
+  background:var(--page-bg);
+  overflow:hidden;
+}
+.leaf img{
+  display:block; width:100%; height:100%;
+  object-fit:contain; background:var(--page-bg);
+  user-select:none; -webkit-user-drag:none; pointer-events:none;
+}
+/* gutter shading on a two-page spread */
+.book.spread .leaf.left::after,
+.book.spread .leaf.right::after{
+  content:''; position:absolute; top:0; bottom:0; width:26px; pointer-events:none;
+}
+.book.spread .leaf.left::after{right:0;background:linear-gradient(90deg,transparent,rgba(0,0,0,.16));}
+.book.spread .leaf.right::after{left:0;background:linear-gradient(270deg,transparent,rgba(0,0,0,.16));}
+
+/* flip animation */
+.book.flipping .leaf{will-change:transform,opacity;}
+.leaf.anim-out-next{animation:outNext .42s cubic-bezier(.4,0,.2,1) both;}
+.leaf.anim-in-next{animation:inNext .42s cubic-bezier(.4,0,.2,1) both;}
+.leaf.anim-out-prev{animation:outPrev .42s cubic-bezier(.4,0,.2,1) both;}
+.leaf.anim-in-prev{animation:inPrev .42s cubic-bezier(.4,0,.2,1) both;}
+
+@keyframes outNext{from{opacity:1;transform:translateX(0) scale(1);}to{opacity:0;transform:translateX(-7%) scale(.965);}}
+@keyframes inNext {from{opacity:0;transform:translateX(7%) scale(.965);} to{opacity:1;transform:translateX(0) scale(1);}}
+@keyframes outPrev{from{opacity:1;transform:translateX(0) scale(1);}to{opacity:0;transform:translateX(7%) scale(.965);}}
+@keyframes inPrev {from{opacity:0;transform:translateX(-7%) scale(.965);}to{opacity:1;transform:translateX(0) scale(1);}}
+
+@media (prefers-reduced-motion:reduce){
+  .leaf.anim-out-next,.leaf.anim-in-next,.leaf.anim-out-prev,.leaf.anim-in-prev{animation-duration:.01s;}
+  .book-wrap{transition:none;}
+}
+
+/* ---------- edge nav (tablet / desktop) ---------- */
+.edge-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:64px; border:0; border-radius:12px;
+  background:rgba(10,15,31,.55); color:var(--white);
+  display:none; align-items:center; justify-content:center;
+  cursor:pointer; z-index:12;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  transition:background .15s ease, opacity .15s ease;
+}
+.edge-nav svg{width:26px;height:26px;fill:currentColor;}
+.edge-nav:hover{background:rgba(34,229,132,.22);}
+.edge-nav:disabled{opacity:.25;cursor:default;}
+.edge-nav.prev{left:10px;}
+.edge-nav.next{right:10px;}
+/* pointer devices only, and only where there is room beside the book */
+@media (hover:hover) and (pointer:fine) and (min-width:900px){ .edge-nav{display:flex;} }
+
+/* ---------- swipe hint ---------- */
+.hint{
+  position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
+  padding:7px 16px; border-radius:20px;
+  background:rgba(10,15,31,.72); border:1px solid var(--line);
+  color:var(--muted); font-size:12.5px; font-weight:600;
+  pointer-events:none; z-index:12;
+  transition:opacity .4s ease;
+}
+.hint.gone{opacity:0;}
+
+/* ---------- bottom toolbar ---------- */
+.toolbar{
+  flex:0 0 auto;
+  height:calc(var(--toolbar-h) + var(--safe-bottom));
+  padding:0 8px var(--safe-bottom);
+  display:flex; align-items:center; justify-content:center; gap:2px;
+  background:var(--bar);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);
+  transition:transform .25s ease, opacity .25s ease;
+  z-index:30;
+}
+.tb-sep{width:1px;height:22px;background:var(--line);margin:0 6px;flex:0 0 auto;}
+
+.page-indicator{
+  min-width:74px; height:34px; padding:0 12px; margin:0 2px;
+  border:1px solid var(--line); border-radius:17px;
+  background:rgba(255,255,255,.05); color:var(--white);
+  font-family:inherit; font-size:13px; font-weight:700;
+  font-variant-numeric:tabular-nums;
+  cursor:pointer; flex:0 0 auto;
+  transition:border-color .15s ease;
+}
+.page-indicator:hover{border-color:var(--green);}
+.page-indicator .slash{color:var(--muted);margin:0 3px;font-weight:500;}
+#pageTotal{color:var(--muted);}
+
+/* chrome hidden (zoom / immersive) */
+.app.chrome-off .topbar{transform:translateY(-100%);opacity:0;pointer-events:none;}
+.app.chrome-off .toolbar{transform:translateY(100%);opacity:0;pointer-events:none;}
+
+/* ---------- thumbnails drawer ---------- */
+.scrim{
+  position:fixed; inset:0; background:rgba(0,0,0,.6);
+  z-index:40; animation:fade .2s ease both;
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.drawer{
+  position:fixed; left:0; right:0; bottom:0;
+  max-height:72vh;
+  display:flex; flex-direction:column;
+  background:#0d1426;
+  border-top:1px solid var(--line);
+  border-radius:18px 18px 0 0;
+  box-shadow:0 -10px 40px rgba(0,0,0,.6);
+  z-index:41;
+  padding-bottom:var(--safe-bottom);
+  animation:slideUp .26s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+.drawer-head{
+  flex:0 0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 8px 12px 18px;
+  border-bottom:1px solid var(--line);
+  font-size:14px; font-weight:700;
+}
+
+.thumb-grid{
+  flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr));
+  gap:12px; padding:16px;
+}
+.thumb{
+  border:2px solid transparent; border-radius:8px;
+  background:transparent; padding:0; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.thumb img{
+  display:block; width:100%; aspect-ratio:var(--thumb-ratio,16/9);
+  object-fit:contain; background:#fff; border-radius:5px;
+}
+.thumb span{font-size:11.5px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;}
+.thumb:hover{transform:translateY(-2px);}
+.thumb.current{border-color:var(--green);}
+.thumb.current span{color:var(--green);}
+
+/* ---------- splash / empty state ---------- */
+.splash{
+  position:fixed; inset:0; z-index:60;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg);
+  transition:opacity .35s ease;
+}
+.splash.gone{opacity:0;pointer-events:none;}
+.splash-inner{text-align:center;padding:28px;max-width:420px;}
+.splash-inner p{margin-top:16px;font-size:14px;color:var(--muted);line-height:1.6;white-space:pre-line;}
+.spinner{
+  width:38px;height:38px;margin:0 auto;
+  border:3px solid rgba(255,255,255,.14);
+  border-top-color:var(--green);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+.splash.error .spinner{display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- narrow phones ---------- */
+/* first/last would push the toolbar past the viewport under ~440px; the page
+   indicator still jumps anywhere, so drop them rather than let it overflow. */
+@media (max-width:440px){
+  .toolbar #btnFirst,
+  .toolbar #btnLast{display:none;}
+  .tb-sep{margin:0 4px;}
+}
+
+/* ---------- larger screens ---------- */
+@media (min-width:768px){
+  :root{--topbar-h:58px;--toolbar-h:60px;}
+  .book-title{font-size:15.5px;}
+  .icon-btn{width:42px;height:42px;}
+}

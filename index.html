@@ -1,8 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="no-js">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>한성대학교 AI 바이브코딩 기초·심화 프로그램</title>
+<meta name="description" content="한성대학교 대학일자리플러스센터 · AI 바이브코딩 기초·심화 프로그램 안내. 모집 일정, 교육 내용, 신청 방법을 확인하세요.">
+<meta name="theme-color" content="#0a0f1f">
+<meta name="color-scheme" content="dark">
+
+<!-- Open Graph / 카카오톡·페이스북 등 링크 미리보기 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="한성대학교 대학일자리플러스센터">
+<meta property="og:title" content="한성대학교 AI 바이브코딩 기초·심화 프로그램">
+<meta property="og:description" content="AI 바이브코딩 기초·심화 프로그램 안내. 모집 일정, 교육 내용, 신청 방법을 확인하세요.">
+<meta property="og:url" content="https://polanyi082.github.io/-/">
+<meta property="og:image" content="https://polanyi082.github.io/-/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="한성대학교 AI 바이브코딩 기초·심화 프로그램 안내 포스터">
+<meta property="og:locale" content="ko_KR">
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="한성대학교 AI 바이브코딩 기초·심화 프로그램">
+<meta name="twitter:description" content="AI 바이브코딩 기초·심화 프로그램 안내. 모집 일정, 교육 내용, 신청 방법을 확인하세요.">
+<meta name="twitter:image" content="https://polanyi082.github.io/-/og-image.png">
+
+<link rel="canonical" href="https://polanyi082.github.io/-/">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
   :root{
@@ -18,7 +42,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{background:#1a1d29;font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;}
-  .stage{display:flex;justify-content:center;padding:0;}
+  .stage{display:block;width:100%;overflow:hidden;padding:0;}
   .poster{
     width:1000px;
     min-height:1414px;
@@ -171,7 +195,7 @@
     width:26px; height:26px; border-radius:6px; background:var(--green); color:var(--bg);
     display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900;
   }
-  .footer .note{ font-size:11px; color:var(--muted); text-align:right; line-height:1.6; }
+  .footer .note{ font-size:12px; color:var(--muted); text-align:right; line-height:1.6; }
 
   .top-logo{
     display:inline-flex; align-items:center;
@@ -183,6 +207,101 @@
     background:#ffffff; border-radius:8px; padding:8px 12px; display:inline-flex; align-items:center;
   }
   .footer .brand-logo img{ height:26px; display:block; }
+
+  /* ──────────────────────────────────────────────────────────────
+     반응형 스케일링
+     포스터는 1000px 고정 레이아웃이므로, 화면 너비에 맞춰
+     전체를 비율 그대로 축소한다. (scale 값은 아래 스크립트가 계산)
+     ────────────────────────────────────────────────────────────── */
+  html{ -webkit-text-size-adjust:100%; }
+  body{ overflow-x:hidden; }
+  .poster{ transform-origin:top left; }
+
+  /* 스크립트가 꺼져 있을 때의 폴백: 가로 스크롤로라도 전체가 보이게 */
+  .no-js .stage{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+  /* ──────────────────────────────────────────────────────────────
+     모바일 / 좁은 화면 (< 860px)
+     축소만 하면 글씨가 이미지처럼 작아져 읽을 수 없으므로,
+     이 구간에서는 축소 대신 레이아웃을 세로로 재배치한다.
+     ────────────────────────────────────────────────────────────── */
+  @media (max-width: 859px){
+    .stage{ height:auto !important; overflow:visible; }
+    .poster{
+      width:100% !important;
+      min-height:0;
+      transform:none !important;
+    }
+
+    /* 1000px 캔버스 기준으로 좌표가 박힌 장식 요소는 숨김 */
+    .plus, .dot, .poster > svg{ display:none; }
+    .grid-overlay{ background-size:28px 28px; }
+
+    .content{ padding:26px 18px 22px; }
+
+    .top-logo{ padding:7px 12px; }
+    .top-logo img{ height:18px; }
+
+    .eyebrow{ font-size:12.5px; }
+    /* flex 대신 일반 인라인 흐름으로 두어 단어 단위로 자연스럽게 줄바꿈 */
+    .tagbar{ display:block; font-size:12.5px; padding:7px 14px; margin-bottom:12px; line-height:1.55; }
+    .tagbar .sep{ margin:0 7px; }
+
+    .title{ font-size:clamp(46px, 15vw, 96px); margin-bottom:8px; }
+    .subtitle{ font-size:clamp(17px, 5.2vw, 26px); line-height:1.35; }
+
+    .meta-row{ gap:7px; }
+    .meta-pill{ font-size:12.5px; padding:5px 12px; }
+
+    .courses{ flex-direction:column; gap:12px; }
+    .course-card{ padding:15px 18px 14px; }
+    .course-title{ font-size:19px; }
+    .course-info{ grid-template-columns:48px 1fr; font-size:13.5px; }
+
+    .section{ margin-top:20px; }
+    .section-title{ font-size:22px; }
+
+    .step{ gap:13px; }
+    .step-num{ flex:0 0 30px; height:30px; font-size:13px; }
+    .step-line{ left:14px; top:30px; }
+    .step-body p{ font-size:14.5px; }
+    .step-body .sub{ font-size:12.5px; }
+
+    .jobs{ gap:8px; }
+    .job-pill{ flex:1 1 calc(50% - 8px); min-width:0; font-size:14px; padding:10px 6px; }
+
+    .notice{ padding:12px 14px; }
+    .notice p{ font-size:13.5px; }
+
+    .cta{ flex-direction:column; margin-top:18px; }
+    .cta-info{ flex:1 1 auto; padding:16px 18px 12px; }
+    .cta-info h3{ font-size:19px; }
+    .cta-info p{ font-size:13.5px; }
+    .cta-qr{
+      flex:1 1 auto; border-left:none;
+      border-top:1px dashed rgba(255,255,255,0.15);
+      gap:22px; padding:16px 14px;
+    }
+    .qr-box{ width:104px; height:104px; }
+
+    .footer{ flex-direction:column; align-items:flex-start; gap:12px; margin-top:20px; }
+    .footer .note{ text-align:left; font-size:11.5px; }
+  }
+
+  /* 아주 좁은 화면 */
+  @media (max-width: 380px){
+    .content{ padding:22px 14px 20px; }
+    .job-pill{ flex:1 1 100%; }
+    .cta-qr{ gap:14px; }
+    .qr-box{ width:92px; height:92px; }
+  }
+
+  /* 인쇄 시에는 축소를 해제하고 원본 크기로 */
+  @media print{
+    html,body{ background:#fff; }
+    .stage{ height:auto !important; overflow:visible !important; }
+    .poster{ transform:none !important; }
+  }
 </style>
 </head>
 <body>
@@ -377,5 +496,53 @@
     </div>
   </div>
 </div>
+
+<script>
+document.documentElement.classList.remove('no-js');
+/* 화면 폭에 따라 포스터를 배치하는 스크립트.
+   - 1000px 이상 : 원본 크기 그대로 가운데 정렬
+   - 860~1000px  : 비율 그대로 균일 축소 (레이아웃 깨짐 없음)
+   - 860px 미만  : 축소하지 않고 CSS 미디어쿼리가 세로로 재배치 */
+(function () {
+  var stage  = document.querySelector('.stage');
+  var poster = document.querySelector('.poster');
+  if (!stage || !poster) return;
+
+  var BASE_WIDTH  = 1000;  /* 포스터 원본 너비 */
+  var FLUID_BELOW = 860;   /* 이 아래로는 CSS가 세로 재배치를 담당 */
+
+  function fit() {
+    var available = stage.clientWidth || document.documentElement.clientWidth;
+
+    /* 모바일 구간: 축소하지 않고 CSS 미디어쿼리에 맡긴다 */
+    if (available < FLUID_BELOW) {
+      poster.style.transform = '';
+      stage.style.height = '';
+      return;
+    }
+
+    var scale = Math.min(1, available / BASE_WIDTH);
+    var offsetX = Math.max(0, (available - BASE_WIDTH * scale) / 2);
+
+    poster.style.transform = 'translateX(' + offsetX + 'px) scale(' + scale + ')';
+    stage.style.height = Math.ceil(poster.offsetHeight * scale) + 'px';
+  }
+
+  fit();
+  window.addEventListener('resize', fit, { passive: true });
+  window.addEventListener('orientationchange', fit, { passive: true });
+  window.addEventListener('load', fit);
+
+  /* 웹폰트가 늦게 적용되면 높이가 달라지므로 폰트 로드 후 한 번 더 */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fit).catch(function () {});
+  }
+
+  /* 내부 요소 크기 변화(이미지 로드 등)에도 대응 */
+  if (window.ResizeObserver) {
+    new ResizeObserver(fit).observe(poster);
+  }
+})();
+</script>
 </body>
 </html>

@@ -45,30 +45,42 @@ Flip PDF 출력물에서 `mobile/index.html` 이 **Flash 없이 동작하는 HTM
 ## 2. 필요한 것: Flip PDF **출력 폴더 전체**
 
 Flip PDF Professional 에서 `Publish → HTML` 로 내보내면 생기는 폴더를
-**통째로** 올려야 합니다. 구조는 대략 이렇습니다.
+**통째로** 올려야 합니다.
+
+아래 구조는 추측이 아니라, 이미 정상 동작 중인
+[`polanyi082/2026_sswu_major_ebook_busi`](https://github.com/polanyi082/2026_sswu_major_ebook_busi)
+(경영학과 이북) 리포를 실제로 확인한 결과입니다. 문화예술경영학도 똑같이 맞춰 주시면 됩니다.
 
 ```
 /
-├── index.html                  ← 지금 올라온 파일 (Flash 런처)
-├── book.swf                    ← Flash 본체 (안 올려도 무관)
+├── index.html            ← mobile/index.html 로 보내는 리다이렉트 (아래 3-(3))
+├── book.swf              ← Flash 로더 (7 KB, 안 올려도 무관)
+├── bookContent.swf       ← Flash 본체 (약 900 KB, 안 올려도 무관)
+├── shot.png              ← 링크 공유 썸네일
 ├── js/
 │   ├── swfobject.js
 │   ├── fbscript.js
 │   ├── ActionHtmlWindow.js
 │   └── fbendscript.js
-├── mobile/                     ★ 여기가 핵심
-│   ├── index.html              ★ 실제 HTML5 플립 뷰어
+├── mobile/                            ★ 여기가 핵심
+│   ├── index.html                     ★ 실제 HTML5 플립 뷰어
 │   ├── javascript/
-│   └── css/
+│   └── style/
 └── files/
-    ├── shot.png                ← 카톡/링크 공유 시 썸네일 (og:image)
-    ├── settings.js             ← 책 제목·페이지 수·옵션
-    ├── thumb/1.jpg  ...        ← 썸네일 이미지
-    ├── large/1.jpg  ...        ← 실제 페이지 이미지 (용량 대부분)
-    └── basic-html/index.html   ← 애니메이션 없는 fallback
+    ├── config.xml        ← 책 제목·페이지 수·옵션
+    ├── page/             ← 페이지 이미지 (용량 대부분)
+    ├── thumb/            ← 썸네일
+    ├── pageConfig/       ← 페이지별 설정
+    ├── search/           ← 본문 검색 인덱스
+    ├── mobile/           ← 모바일용 리소스
+    ├── mobile-ext/
+    ├── extfiles/
+    ├── basic-html/       ← 애니메이션 없는 fallback
+    └── shot.png
 ```
 
-`mobile/` 과 `files/` 가 없으면 무엇을 해도 플립 뷰어는 나오지 않습니다.
+**핵심: `mobile/` 과 `files/` 가 없으면 무엇을 해도 플립 뷰어는 나오지 않습니다.**
+반대로 Flash 파일(`book.swf`, `bookContent.swf`, `js/`)은 전부 빼도 뷰어는 정상 동작합니다.
 원본 출력 폴더(보통 수십~수백 MB)를 찾아 주시면 그 다음은 간단합니다.
 
 ---
@@ -99,6 +111,8 @@ git push -u origin main
 Flash 런처를 그대로 두면 방문자가 또 Flash 안내문을 봅니다.
 루트 `index.html` 을 리다이렉트로 바꾸세요.
 이 폴더의 **`root-index-redirect.html`** 을 `index.html` 로 이름만 바꿔 루트에 두면 됩니다.
+`2026_sswu_major_ebook_busi` 리포의 루트 `index.html` 이 바로 이 방식(361 바이트 리다이렉트)이고,
+참고 URL 과 동일하게 동작하는 것이 확인된 형태입니다.
 
 ### (4) `.nojekyll` 추가
 
